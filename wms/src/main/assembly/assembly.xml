@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<moduleSets>
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>
+					com.jd.wms:wms-starter
+				</include>
+			</includes>
+			<binaries>
+				<outputDirectory>/</outputDirectory>
+				<dependencySets>
+					<dependencySet>
+						<outputDirectory>lib</outputDirectory>
+						<useProjectArtifact>false</useProjectArtifact>
+					</dependencySet>
+				</dependencySets>
+				<unpack>false</unpack>
+			</binaries>
+		</moduleSet>
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<excludes>
+				<exclude>
+					com.jd.wms:wms-starter
+				</exclude>
+			</excludes>
+			<binaries>
+				<outputDirectory>lib</outputDirectory>
+				<excludes>
+					<exclude>
+						com.jd.wms:wms-starter
+					</exclude>
+				</excludes>
+				<dependencySets>
+					<dependencySet>
+						<outputDirectory>lib</outputDirectory>
+						<useProjectArtifact>false</useProjectArtifact>
+					</dependencySet>
+				</dependencySets>
+				<unpack>false</unpack>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
+	<!-- <dependencySets> <dependencySet> <useProjectArtifact>false</useProjectArtifact> 
+		<outputDirectory>lib</outputDirectory> <excludes> <exclude>com.jd.wms:wms-core</exclude> 
+		</excludes> </dependencySet> </dependencySets> -->
+	<fileSets>
+		<fileSet>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>README.txt</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/scripts</directory>
+			<outputDirectory>/bin</outputDirectory>
+			<includes>
+				<include>*.sh</include>
+				<include>*.bat</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/config</directory>
+			<outputDirectory>/conf</outputDirectory>
+			<includes>
+				<include>**/*.xml</include>
+				<include>**/*.properties</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>

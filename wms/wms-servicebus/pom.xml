@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.jd.wms</groupId>
+		<artifactId>wms</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>wms-servicebus</artifactId>
+	<packaging>pom</packaging>
+	<name>wms-servicebus</name>
+	<description>The servicebus of wms platform</description>
+	<modules>
+		<module>wms-servicebus-core</module>
+    <module>wms-servicebus-protocol</module>
+  </modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.jd.wms</groupId>
+			<artifactId>wms-core</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://wms.jd.com/memoryQueue">
+	<queue name="wave-distribute" capacity="100" priority="false"/>
+</configuration>
