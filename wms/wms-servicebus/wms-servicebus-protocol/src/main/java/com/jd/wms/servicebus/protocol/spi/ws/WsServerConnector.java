@@ -80,7 +80,7 @@ public class WsServerConnector implements Connection {
 			throw new IllegalArgumentException( "The config can not be null." );
 		}
 		final Realization rm = ( ( WsCommonsConfig ) getConfig().getCommons() ).getImpl();
-		WsRealizationFactory.getInstance().create( rm );
+		WsConnec1torFactory.getInstance().create( rm );
 		
 		running.set( true );
 	}
