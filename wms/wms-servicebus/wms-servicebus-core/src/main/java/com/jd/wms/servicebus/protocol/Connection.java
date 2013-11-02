@@ -52,6 +52,12 @@ public interface Connection {
 	 * 获取当前链接配置
 	 * @return
 	 */
-	public ProtocolConfig getConfig();
+	public < T extends ProtocolConfig > T getConfig();
+	
+	/**
+	 * 设置当前链接配置
+	 * @param config
+	 */
+	public < T extends ProtocolConfig > void setConfig( T t );
 	
 }

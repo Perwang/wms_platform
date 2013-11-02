@@ -6,8 +6,8 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @XmlEnum( String.class )
 public enum ModeEnum {
 
-	@XmlEnumValue( value = "async" ) ASYNC,
+	@XmlEnumValue( value = "a" ) ASYNC,
 	
-	@XmlEnumValue( value = "sync" ) SYNC
+	@XmlEnumValue( value = "s" ) SYNC
 	
 }

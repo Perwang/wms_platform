@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugins>
+	<plugin protocol="ws">
+		<config-processor>com.jd.wms.servicebus.protocol.spi.ws.WsConfigProcessor</config-processor>
+	</plugin>
+</plugins>

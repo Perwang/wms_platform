@@ -2,10 +2,10 @@ package com.jd.wms.servicebus.protocol.config;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement( name = "protocol" )
-public abstract class ProtocolConfig extends AbstractDefinition {
+@XmlType
+public class ProtocolConfig extends AbstractDefinition {
 	@XmlAttribute
 	protected String name;
 	@XmlAttribute

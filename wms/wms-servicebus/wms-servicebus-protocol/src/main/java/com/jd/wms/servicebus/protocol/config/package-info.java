@@ -1,2 +1,0 @@
-@javax.xml.bind.annotation.XmlSchema( namespace = "http://datasync.musketeer.net/protocol", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED )
-package com.jd.wms.servicebus.protocol.config;

@@ -7,24 +7,30 @@
 package com.jd.wms.servicebus.protocol;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jd.wms.Env;
 import com.jd.wms.servicebus.protocol.config.ProtocolConfig;
+import com.jd.wms.servicebus.protocol.plugin.ProtocolPlugin;
 
 /**
- *
- * <p></p>
+ * 协议配置管理类
+ * <p>
+ * 注册当前所有协议实例配置
+ * </p>
  * @author liubing
  * Date Oct 28, 2013
  */
@@ -48,31 +54,72 @@ public class ProtocolConfigManager {
 		return _instance;
 	}
 	
-	private Map< String, ProtocolConfig > configs = new ConcurrentHashMap< String, ProtocolConfig >( 16 );
+	private Map< String, ProtocolConfig > registry = new ConcurrentHashMap< String, ProtocolConfig >( 16 );
 
-	public void readConfigs() {
-		JAXBContext jaxbContext;
-		try {
-			jaxbContext = JAXBContext.newInstance( createJaxbContextPath(), 
-					this.getClass().getClassLoader() );
-			final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			final File configDir = new File( Env.getInstance().getConfPath() + "protocol/" );
-			if ( ! configDir.exists() ) {
-				return ;
+	public void readAll() {
+		final File configDir = new File( Env.getInstance().getConfPath() + "protocol/configuration" );
+		if ( ! configDir.exists() ) {
+			return ;
+		}
+		final File[] files = configDir.listFiles();
+		final XMLInputFactory xif = XMLInputFactory.newFactory();
+		XMLStreamReader xsr = null;
+		String protocol = null;
+		FileInputStream fis = null;
+		ProtocolConfig config = null;
+		for ( File file : files ) {
+			try {
+				fis = new FileInputStream( file );
+				xsr = xif.createXMLStreamReader( fis );
+				if ( ! xsr.hasNext() ) {
+					continue ;
+				}
+				xsr.next();
+				protocol = xsr.getLocalName().toString();
+			} catch ( FileNotFoundException e ) {
+				LOG.error( e.getMessage(),  e );
+			} catch ( XMLStreamException e ) {
+				LOG.error( e.getMessage(),  e );
+			} catch ( Exception e ) {
+				LOG.error( e.getMessage(),  e );
+			} finally {
+				if ( xsr != null ) {
+					try {
+						xsr.close();
+					} catch ( XMLStreamException e ) {
+						LOG.error( e.getMessage(),  e );
+					}
+					xsr = null;
+				}
 			}
-			final File[] files = configDir.listFiles();
-			String id = null;
-			for ( File file : files ) {
-				ProtocolConfig config = ( ProtocolConfig ) unmarshaller.unmarshal( file );
-				String fileName = file.getName();
-				id = fileName.substring( 0, fileName.lastIndexOf( "." ) );
-				configs.put( id, config );
+			try {
+				fis = new FileInputStream( file );
+				config = readByProtocol( protocol, fis );
+			} catch ( Exception e ) {
+				e.printStackTrace();
 			}
-		} catch ( JAXBException e ) {
-			LOG.error( e.getMessage(), e );
-		}		
+			String id = file.getName().substring( 0, file.getName().lastIndexOf( "." ) );
+			registry.put( id, config );
+		}
 	}
 	
+	/**
+	 * @param tagName
+	 * @param xsr
+	 */
+	private ProtocolConfig readByProtocol( String protocol, InputStream is ) throws Exception {
+		if ( protocol == null || "".equals( protocol ) ) {
+			throw new IllegalArgumentException( "The prtocol string can not be null." );
+		}
+		protocol = protocol.substring( 
+				protocol.lastIndexOf( "." ) + 1, protocol.length() );
+		final ProtocolPlugin plugin = ProtocolPluginManager.getInstance().lookup( protocol );
+		final ProtocolConfigProcessor processor = plugin.getConfigProcessor();
+		ProtocolConfig config = new ProtocolConfig();
+		processor.read( is, config );
+		return config;
+	}
+
 	private static List< String > packageNames = new LinkedList< String >();
 
 	/**
@@ -90,6 +137,13 @@ public class ProtocolConfigManager {
 			buffer.append( packageName );
 		}
 		return buffer.toString();
+	}
+
+	/**
+	 * 
+	 */
+	public Map< String, ProtocolConfig > getAll() {
+		return this.registry;
 	}
 	
 }

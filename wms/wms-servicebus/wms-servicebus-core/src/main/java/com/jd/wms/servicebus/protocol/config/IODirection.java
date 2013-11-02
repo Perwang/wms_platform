@@ -6,10 +6,10 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @XmlEnum( String.class )
 public enum IODirection {
 	
-	@XmlEnumValue( value = "in" ) IN,
+	@XmlEnumValue( value = "i" ) IN,
 	
-	@XmlEnumValue( value = "out" ) OUT,
+	@XmlEnumValue( value = "o" ) OUT,
 	
-	@XmlEnumValue( value = "in/out" ) INOUT
+	@XmlEnumValue( value = "i/o" ) INOUT
 
 }

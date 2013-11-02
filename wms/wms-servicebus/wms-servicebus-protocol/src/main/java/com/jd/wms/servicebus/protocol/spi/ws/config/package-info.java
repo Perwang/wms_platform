@@ -1,2 +1,2 @@
 @javax.xml.bind.annotation.XmlSchema( namespace = "http://servicebus.wms.jd.com/protocol", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED )
-package com.jd.wms.servicebus.protocol.config;
+package com.jd.wms.servicebus.protocol.spi.ws.config;
