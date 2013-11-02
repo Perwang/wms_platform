@@ -15,18 +15,18 @@ import com.jd.wms.servicebus.protocol.spi.ws.config.Realization;
  * @author liubing
  * Date Nov 2, 2013
  */
-public class WsRealizationFactory {
+public class WsConnectorFactory {
 	
-	private static volatile WsRealizationFactory _instance;
+	private static volatile WsConnectorFactory _instance;
 	
-	private WsRealizationFactory() {
+	private WsConnectorFactory() {
 	}
 	
-	public static WsRealizationFactory getInstance() {
+	public static WsConnectorFactory getInstance() {
 		if ( _instance == null ) {
-			synchronized ( WsRealizationFactory.class ) {
+			synchronized ( WsConnectorFactory.class ) {
 				if ( _instance == null ) {
-					_instance = new WsRealizationFactory();
+					_instance = new WsConnectorFactory();
 				}
 			}
 		}
